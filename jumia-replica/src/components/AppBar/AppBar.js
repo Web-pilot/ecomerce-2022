@@ -15,7 +15,7 @@ import { INITIAL_STATE, userReducer } from "../../utils/accountReducer";
 export const AppBar = () => {
   // const [ user] = useReducer(INITIAL_STATE.user);
   const [dropDown, setDropDown] = useState(false);
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(false);
 
   return (
     <header className="navbar">

@@ -4,10 +4,13 @@ const passport = require("passport");
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
-const passportSetup = require("./passport");
-const authRoute = require("./Routes/auth");
-// install the package
+require("./passport");
 
+// Routes
+const authRoute = require("./Routes/auth");
+const productRoute = require("./Routes/product");
+
+// initialize app
 const app = express();
 
 app.use(
@@ -35,6 +38,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use("/auth", authRoute);
+app.use("/api/v1/products", productRoute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

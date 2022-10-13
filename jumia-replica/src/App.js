@@ -47,14 +47,14 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <AdsBar />
+      <AdsBar />
       <SubTopBar />
       <AppBar />
       <Category categoryOpen={categoryOpen} />
       <BottomNavbar
         categoryOpen={categoryOpen}
         setCategoryOpen={setCategoryOpen}
-      /> */}
+      />
       <Routes>
         <Route path="/seller/dashboard" element={<Dashboard />} />
         <Route path="/account/sign-in" element={<SignIn />} />
