@@ -1,0 +1,6 @@
+.inbox h4  {
+    border-bottom: var(--border);
+    height: 30px;
+    display: flex;
+    align-items: center;
+}

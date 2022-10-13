@@ -1,0 +1,5 @@
+.details_slide {
+    flex: 2;
+    background: var(--text-primary-color);
+    margin-left: 10px;
+}

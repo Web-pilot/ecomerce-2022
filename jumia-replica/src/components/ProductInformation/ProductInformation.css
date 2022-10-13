@@ -1,0 +1,9 @@
+.product_information {
+    background-color: var(--text-primary-color);
+    line-height: 25px;
+}
+
+.product_information p {
+    padding: 10px;
+}
+

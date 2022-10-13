@@ -1,0 +1,22 @@
+.sub_nav_bar {
+    border: var(--border);
+}
+
+.sub_nav_bar ul {
+    display: flex;
+    list-style: none;
+    height: 50px;
+    align-items: center;
+    padding: 0;
+    padding: 0 5px;
+}
+
+.sub_nav_bar ul li a.active{
+    color: var(--primary-color);
+    font-weight: 900;
+}
+
+.sub_nav_bar ul li:not(:last-child) {
+    padding-right: 10px;
+    
+}

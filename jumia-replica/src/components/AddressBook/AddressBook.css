@@ -1,0 +1,5 @@
+.address_book .body span{
+    margin: 2px;
+    display: inline-block;
+    font-weight: 900;
+}

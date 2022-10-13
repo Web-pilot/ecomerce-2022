@@ -1,0 +1,10 @@
+.news_bar {
+    height: 50px;
+    background: var(--primary-color);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    color: var(--text-primary-color)
+}

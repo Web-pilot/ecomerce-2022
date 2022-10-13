@@ -1,0 +1,13 @@
+.main_hero_container {
+    display: flex;
+    min-height: 50vh;
+}
+@media screen and (max-width: 768px) {
+    .m {
+        position: fixed;
+        top: 0;
+        height: 100vh;
+        left: 0;
+        z-index: 99;
+    }
+}

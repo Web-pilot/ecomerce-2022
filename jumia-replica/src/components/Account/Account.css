@@ -1,0 +1,50 @@
+.account_container {
+    display: flex;
+    align-items: flex-start;
+}
+
+.main_content {
+    background: white;
+    border: var(--border);
+}
+
+.main_content {
+    flex: 5;
+    margin-left: 10px;
+}
+
+.log_out_btn {
+    margin: 10px auto;
+    display: block;
+    color: var(--primary-color);
+    text-align: center;
+    font-weight: 900;
+    width: fit-content;
+    cursor: pointer;
+    transition: 0.5s;
+    padding: 6px;
+
+}
+
+.log_out_btn:hover {
+    background: rgb(232, 161, 7);
+    color: white;
+}
+
+.main_content {
+    padding: 10px;
+}
+.account_container .main_content_title {
+    border-bottom: var(--border);
+    font-weight: 400;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.account_container .grids {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-gap: 10px;
+}

@@ -1,0 +1,33 @@
+.product_comments {
+    background: var(--text-primary-color);
+}
+
+.comments_container {
+    height: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: var(--border);
+}
+
+.product_comments .top_heading {
+    display: flex;
+    border-bottom: var(--border);
+    justify-content: space-between;
+}
+
+.link {
+    color: var(--primary-color);
+    height: fit-content;
+    padding: 3px;
+    border-radius: 3px;
+}
+
+.link:hover {
+    background: var(--light-primary-color);
+   
+}
+.comments_container span:not(.variation) {
+    color: var(--primary-color)
+}

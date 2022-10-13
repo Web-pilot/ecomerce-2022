@@ -1,0 +1,9 @@
+.store_credit h4 {
+    color: var(--primary-color);;
+}
+
+.store_credit i {
+    font-size: 25px;
+    color: blue;
+    opacity: 0.5;
+}
