@@ -1,11 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Home";
-import AdsBar from "./components/AdsBar/AdsBar";
-import SubTopBar from "./components/SubTopBar/SubTopBar";
-import { AppBar } from "./components/AppBar/AppBar";
 import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
-import { useEffect, useReducer, useState } from "react";
 import Category from "./components/SmallWidthCategory/Category";
 import Cart from "./components/Cart/Cart";
 import ProductDetails from "./components/ProductDetailsPage/ProductDetails";
@@ -16,8 +12,11 @@ import Order from "./components/Order/Order";
 import SavedItems from "./components/SavedItems/SavedItems";
 import RecentlyViewItems from "./components/RecentlyViewItems/RecentlyViewItems";
 import { action } from "./utils/actionTypes";
-import { INITIAL_STATE, userReducer } from "./utils/accountReducer";
 import Dashboard from "./Dashboard";
+import { useState } from "react";
+import AddProduct from "./components/AddProduct/AddProduct";
+import DashboardProductEdit from "./components/DashboardProductEdit/DashboardProductEdit";
+import DashboardProductFullDetails from "./components/DashboardProductFullDetails/DashboardProductFullDetails";
 
 function App() {
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -35,6 +34,7 @@ function App() {
   //   })
   //     .then((res) => res.json())
   //     .then((data) => {
+  //       console.log(data.user);
   //       dispatch({ type: action.LOGIN_SUCCESS, payload: data.user });
   //     })
   //     .catch((err) => console.log(err));
@@ -47,9 +47,6 @@ function App() {
 
   return (
     <BrowserRouter>
-      <AdsBar />
-      <SubTopBar />
-      <AppBar />
       <Category categoryOpen={categoryOpen} />
       <BottomNavbar
         categoryOpen={categoryOpen}
@@ -66,6 +63,15 @@ function App() {
         <Route path="/customer/orders/index" element={<Order />} />
         <Route path="/customer/wishlists/index" element={<SavedItems />} />
         <Route path="/history" element={<RecentlyViewItems />} />
+        <Route path="/dashboard/products/add" element={<AddProduct />} />
+        <Route
+          path="/dashboard/products/edit"
+          element={<DashboardProductEdit />}
+        />
+        <Route
+          path="/dashboard/products/info"
+          element={<DashboardProductFullDetails />}
+        />
       </Routes>
     </BrowserRouter>
   );

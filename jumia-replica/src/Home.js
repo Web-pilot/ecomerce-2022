@@ -2,13 +2,21 @@ import React, { useEffect, useReducer } from "react";
 import MainHero from "./components/Hero/MainHero";
 import TopSellingItem from "./components/TopSellingItem/TopSellingItem";
 import { userReducer, INITIAL_STATE } from "./utils/accountReducer";
+import AdsBar from "./components/AdsBar/AdsBar";
+import SubTopBar from "./components/SubTopBar/SubTopBar";
+import { AppBar } from "./components/AppBar/AppBar";
 
 const Home = ({ categoryOPen }) => {
   return (
-    <main>
-      <MainHero categoryOPen={categoryOPen} />
-      <TopSellingItem />
-    </main>
+    <>
+      <AdsBar />
+      <SubTopBar />
+      <AppBar />
+      <main>
+        <MainHero categoryOPen={categoryOPen} />
+        <TopSellingItem />
+      </main>
+    </>
   );
 };
 

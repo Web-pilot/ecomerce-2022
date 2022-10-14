@@ -48,6 +48,9 @@
     width: 97%;
     margin-top: 10px;
     padding-left: 5px;
+    position: sticky;
+    top: 0;
+   background: white;
 }
 .dashboard_logo {
     color: var(--primary-color);
@@ -67,6 +70,7 @@
     width: 98%;
     padding-left: 5px;
     margin: 5px;
+    
 }
 .dashboard .top_bar input {
     padding: 0;
