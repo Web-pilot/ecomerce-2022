@@ -11,13 +11,11 @@ import Inbox from "./components/Inbox/Inbox";
 import Order from "./components/Order/Order";
 import SavedItems from "./components/SavedItems/SavedItems";
 import RecentlyViewItems from "./components/RecentlyViewItems/RecentlyViewItems";
-import { action } from "./utils/actionTypes";
 import Dashboard from "./Dashboard";
 import { useEffect, useState } from "react";
 import AddProduct from "./components/AddProduct/AddProduct";
 import DashboardProductEdit from "./components/DashboardProductEdit/DashboardProductEdit";
 import DashboardProductFullDetails from "./components/DashboardProductFullDetails/DashboardProductFullDetails";
-import axios from "axios";
 import { axiosRequest } from "./axiosRequestMethod";
 
 function App() {
@@ -25,21 +23,6 @@ function App() {
   // const [dispatch] = useReducer(userReducer, INITIAL_STATE);
 
   const fetchLoginUser = async () => {
-    fetch("http://localhost:5000/auth/login/success", {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Credential": true,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data.user);
-        // dispatch({ type: action.LOGIN_SUCCESS, payload: data.user });
-      })
-      .catch((err) => console.log(err));
     // dispatch({ type: action.LOGIN_FAILURE });
     try {
       const res = await axiosRequest.get("auth/login/success");
