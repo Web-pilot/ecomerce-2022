@@ -1,5 +1,5 @@
 import "../../Dashboard.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getStorage,
   ref,
@@ -8,20 +8,24 @@ import {
 } from "firebase/storage";
 import app from "../../firebase";
 import { axiosRequest } from "../../axiosRequestMethod";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchCategoryFailure,
+  fetchCategoryStart,
+  fetchCategorySuccess,
+} from "../../redux/categoryReducer";
 
 const AddProductForm = () => {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState("");
   const [desc, setDesc] = useState("");
   const [categories, setCategories] = useState([]);
-  const data = [
-    { id: 1, text: "cloth" },
-    { id: 2, text: "belt" },
-    { id: 3, text: "shoe" },
-    { id: 4, text: "automobile" },
-  ];
   const [file, setFile] = useState("");
+  const dispatch = useDispatch();
+  const category = useSelector((state) => state.category);
 
+  console.log(category.categories.map((cat) => cat.text));
+  // Send data to server
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -30,16 +34,9 @@ const AddProductForm = () => {
     const storageRef = ref(storage, fileName);
 
     const uploadTask = uploadBytesResumable(storageRef, file);
-
-    // Register three observers:
-    // 1. 'state_changed' observer, called any time the state changes
-    // 2. Error observer, called on failure
-    // 3. Completion observer, called on successful completion
     uploadTask.on(
       "state_changed",
       (snapshot) => {
-        // Observe state change events such as progress, pause, and resume
-        // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         console.log("Upload is " + progress + "% done");
@@ -58,24 +55,22 @@ const AddProductForm = () => {
         // Handle unsuccessful uploads
       },
       () => {
-        // Handle successful uploads on complete
-        // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           axiosRequest
             .post("api/v1/products/add", {
               title: title,
               img: downloadURL,
-              price: price,
-              categories: categories,
+              price,
+              categories: categories.map((item) => item.text),
               desc: desc,
             })
             .then((res) => res.data);
-
-          console.log("File available at", downloadURL);
         });
       }
     );
   };
+
+  // populate array on checked box
   const toggleHandler = (item) => {
     if (item.target.checked) {
       setCategories([
@@ -93,6 +88,20 @@ const AddProductForm = () => {
       setCategories(filteredCategories);
     }
   };
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        dispatch(fetchCategoryStart());
+        const res = await axiosRequest.get("/api/v1/categories");
+        dispatch(fetchCategorySuccess(res.data));
+        console.log(res.data);
+      } catch (error) {
+        dispatch(fetchCategoryFailure());
+      }
+    };
+    fetchCategory();
+  }, []);
   return (
     <form className="add_product_form" onSubmit={handleSubmit}>
       <div className="form_items">
@@ -121,9 +130,9 @@ const AddProductForm = () => {
 
         <div className="form_group">
           <label htmlFor="category">Categories</label>
-          {data.map((category) => (
+          {category.categories?.map((category) => (
             <div
-              key={category.id}
+              key={category._id}
               style={{
                 display: "flex",
                 width: "150px",
@@ -134,9 +143,10 @@ const AddProductForm = () => {
                 onChange={toggleHandler}
                 value={category.text}
                 type="checkbox"
-                id={category.id}
+                id={category._id}
               />
               {category.text}
+              {category.loading && <h4>Loading...</h4>}
             </div>
           ))}
         </div>

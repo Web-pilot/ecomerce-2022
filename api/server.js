@@ -9,9 +9,11 @@ require("./passport");
 // Routes
 const authRoute = require("./Routes/auth");
 const productRoute = require("./Routes/product");
+const categoryRoute = require("./Routes/category");
 
 // initialize app
 const app = express();
+app.use(express.json());
 
 app.use(
   cookieSession({
@@ -39,6 +41,7 @@ mongoose
 
 app.use("/auth", authRoute);
 app.use("/api/v1/products", productRoute);
+app.use("/api/v1/categories", categoryRoute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

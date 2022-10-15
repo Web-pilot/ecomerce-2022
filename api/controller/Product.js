@@ -1,20 +1,19 @@
 const Product = require("../Models/Product");
 
 const addProduct = async (req, res) => {
-  // const { title, img, price, categories, desc } = req.body;
-  const userId = req.user.id;
+  const { title, img, price, categories, desc } = req.body;
   if (req.isAuthenticated) {
-    console.log(req.body);
+    const userId = req.user.id;
     try {
-      // const product = new Product({
-      //   title,
-      //   img,
-      //   price,
-      //   userId,
-      //   categories,
-      // });
-      // const newProduct = await product.save();
-      // res.status(200).json(newProduct);
+      const product = new Product({
+        title,
+        img,
+        price,
+        userId,
+        categories,
+      });
+      const newProduct = await product.save();
+      res.status(200).json(newProduct);
     } catch (error) {
       res.status(500).json(err.message);
     }
@@ -23,4 +22,17 @@ const addProduct = async (req, res) => {
   }
 };
 
-module.exports = addProduct;
+const editProduct = async (req, res) => {
+  const { id } = req.params.id;
+  if (req.isAuthenticated) {
+    const updatedUser = await Product.findByIdAndUpdate(
+      id,
+      { $set: req.boy },
+      { new: true }
+    );
+    res.status(200).json(updatedUser);
+  } else {
+  }
+};
+
+module.exports = { addProduct, editProduct };

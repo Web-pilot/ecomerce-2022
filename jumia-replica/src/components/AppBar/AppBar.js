@@ -15,7 +15,7 @@ import { useSelector } from "react-redux";
 const AppBar = () => {
   // const [ user] = useReducer(INITIAL_STATE.user);
   const [dropDown, setDropDown] = useState(false);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user.user);
 
   return (
     <header className="navbar">
@@ -43,7 +43,7 @@ const AppBar = () => {
             <div className="user" onClick={() => setDropDown(!dropDown)}>
               <span>
                 <AiOutlineUser />{" "}
-                <span className="">{user ? user.displayName : "Account"}</span>
+                <span className="">{user ? user.family_name : "Account"}</span>
                 <MdOutlineArrowDropDown />
               </span>
               {dropDown && (
