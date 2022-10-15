@@ -4,12 +4,14 @@ import NoCart from "./NoCart/NoCart";
 import { FiTrash } from "react-icons/fi";
 import { BiMinus } from "react-icons/bi";
 import { GoPlus } from "react-icons/go";
+import AppBar from "../AppBar/AppBar";
 
 const Cart = () => {
   const [cart, setCart] = useState([{ id: 1 }]);
 
   return (
     <>
+      <AppBar />
       <section className="container ">
         {!cart.length ? (
           <NoCart />

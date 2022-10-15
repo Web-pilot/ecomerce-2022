@@ -8,7 +8,11 @@ const cartSlice = createSlice({
     total: 0,
   },
   reducers: {
-    addProductToCart(state, action) {},
+    addProductToCart(state, action) {
+      state.products.push(action.payload.cart);
+      state.quantity += 1;
+      state.total += action.payload.price;
+    },
   },
 });
 
