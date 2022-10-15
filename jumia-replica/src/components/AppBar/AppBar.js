@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { useReducer, useState } from "react";
 import { INITIAL_STATE, userReducer } from "../../utils/accountReducer";
 
-export const AppBar = () => {
+const AppBar = () => {
   // const [ user] = useReducer(INITIAL_STATE.user);
   const [dropDown, setDropDown] = useState(false);
   const [user, setUser] = useState(false);
@@ -96,3 +96,5 @@ export const AppBar = () => {
     </header>
   );
 };
+
+export default AppBar;
