@@ -9,15 +9,15 @@ const productSlice = createSlice({
   },
 
   reducers: {
-    fetchUserStart(state) {
+    fetchUserStart: (state) => {
       state.loading = true;
     },
-    fetchUserSuccess(state, action) {
+    fetchUserSuccess: (state, action) => {
       state.loading = false;
       state.user = action.payload;
       state.error = false;
     },
-    fetchUserFailure(state) {
+    fetchUserFailure: (state) => {
       state.loading = false;
       state.error = true;
     },

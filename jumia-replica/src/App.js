@@ -17,17 +17,28 @@ import AddProduct from "./components/AddProduct/AddProduct";
 import DashboardProductEdit from "./components/DashboardProductEdit/DashboardProductEdit";
 import DashboardProductFullDetails from "./components/DashboardProductFullDetails/DashboardProductFullDetails";
 import { axiosRequest } from "./axiosRequestMethod";
+import { useDispatch } from "react-redux";
+import {
+  fetchUserFailure,
+  fetchUserStart,
+  fetchUserSuccess,
+} from "./redux/userReducer";
 
 function App() {
   const [categoryOpen, setCategoryOpen] = useState(false);
+  const dispatch = useDispatch();
+
   // const [dispatch] = useReducer(userReducer, INITIAL_STATE);
 
   const fetchLoginUser = async () => {
-    // dispatch({ type: action.LOGIN_FAILURE });
+    dispatch(fetchUserStart());
     try {
       const res = await axiosRequest.get("auth/login/success");
+      dispatch(fetchUserSuccess(res.data));
       console.log(res.data);
-    } catch (error) {}
+    } catch (error) {
+      dispatch(fetchUserFailure());
+    }
   };
 
   useEffect(() => {

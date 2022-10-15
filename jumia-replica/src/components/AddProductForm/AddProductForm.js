@@ -7,6 +7,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import app from "../../firebase";
+import { axiosRequest } from "../../axiosRequestMethod";
 
 const AddProductForm = () => {
   const [title, setTitle] = useState("");
@@ -60,6 +61,16 @@ const AddProductForm = () => {
         // Handle successful uploads on complete
         // For instance, get the download URL: https://firebasestorage.googleapis.com/...
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          axiosRequest
+            .post("api/v1/products/add", {
+              title: title,
+              img: downloadURL,
+              price: price,
+              categories: categories,
+              desc: desc,
+            })
+            .then((res) => res.data);
+
           console.log("File available at", downloadURL);
         });
       }

@@ -9,13 +9,13 @@ import {
 import { BsCartPlus } from "react-icons/bs";
 import { VscPackage } from "react-icons/vsc";
 import { Link } from "react-router-dom";
-import { useReducer, useState } from "react";
-import { INITIAL_STATE, userReducer } from "../../utils/accountReducer";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const AppBar = () => {
   // const [ user] = useReducer(INITIAL_STATE.user);
   const [dropDown, setDropDown] = useState(false);
-  const [user, setUser] = useState(false);
+  const user = useSelector((state) => state.user);
 
   return (
     <header className="navbar">
@@ -43,7 +43,7 @@ const AppBar = () => {
             <div className="user" onClick={() => setDropDown(!dropDown)}>
               <span>
                 <AiOutlineUser />{" "}
-                <span className="hide">{user ? "Hi Ochagwu" : "Account"}</span>
+                <span className="">{user ? user.displayName : "Account"}</span>
                 <MdOutlineArrowDropDown />
               </span>
               {dropDown && (
