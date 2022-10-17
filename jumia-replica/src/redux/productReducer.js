@@ -6,8 +6,6 @@ const productSlice = createSlice({
     products: [],
     loading: false,
     error: false,
-    errorMessage: "",
-    successMessage: "",
   },
 
   reducers: {
@@ -16,18 +14,56 @@ const productSlice = createSlice({
     },
     fetchProductSucess(state, action) {
       state.loading = false;
-      state.products.push(action.payload);
+      state.products = action.payload;
       state.error = false;
-      state.successMessage = action.payload.successMessage;
     },
     fetchProductFailure(state, action) {
       state.loading = false;
       state.error = true;
       state.errorMessage = action.payload.errorMessage;
     },
+    deleteProductStart: (state) => {
+      state.loading = true;
+    },
+    deleteProductSuccess: (state, action) => {
+      state.products.splice(
+        state.products.findIndex((item) => item._id === action.payload.id),
+        1
+      );
+      state.loading = false;
+    },
+    deleteProductFailure: (state) => {
+      state.loading = false;
+      state.error = false;
+    },
+    showDisplayItemStart: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    showDisplayItemSuccess: (state, action) => {
+      state.loading = false;
+      const filterItem = state.products.filter(
+        (item) => item._id !== action.payload.id
+      );
+      state.products = [...filterItem, action.payload.item];
+      state.loading = false;
+    },
+    showDisplayItemFailure: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
   },
 });
 
-export const { fetchProductFailure, fetchProductStart, fetchProductSucess } =
-  productSlice.actions;
+export const {
+  showDisplayItemFailure,
+  showDisplayItemStart,
+  showDisplayItemSuccess,
+  deleteProductFailure,
+  deleteProductSuccess,
+  deleteProductStart,
+  fetchProductFailure,
+  fetchProductStart,
+  fetchProductSucess,
+} = productSlice.actions;
 export default productSlice.reducer;

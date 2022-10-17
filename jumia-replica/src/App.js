@@ -65,7 +65,7 @@ function App() {
         <Route path="/history" element={<RecentlyViewItems />} />
         <Route path="/dashboard/products/add" element={<AddProduct />} />
         <Route
-          path="/dashboard/products/edit"
+          path="/dashboard/products/edit/:id"
           element={<DashboardProductEdit />}
         />
         <Route

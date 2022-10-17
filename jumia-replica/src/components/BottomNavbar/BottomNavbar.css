@@ -31,7 +31,6 @@
 
 @media screen and (max-width: 768px) {
     .bottom_navbar {
-        display: flex;
-        
+        display: flex; 
     }
 }

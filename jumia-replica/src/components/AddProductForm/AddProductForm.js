@@ -14,6 +14,11 @@ import {
   fetchCategoryStart,
   fetchCategorySuccess,
 } from "../../redux/categoryReducer";
+import {
+  fetchProductFailure,
+  fetchProductStart,
+  fetchProductSucess,
+} from "../../redux/productReducer";
 
 const AddProductForm = () => {
   const [title, setTitle] = useState("");
@@ -22,9 +27,10 @@ const AddProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [file, setFile] = useState("");
   const dispatch = useDispatch();
+  const [upload, setUpload] = useState(null);
   const category = useSelector((state) => state.category);
+  const [loading, setLoading] = useState(false);
 
-  console.log(category.categories.map((cat) => cat.text));
   // Send data to server
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +45,9 @@ const AddProductForm = () => {
       (snapshot) => {
         const progress =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setLoading(true);
         console.log("Upload is " + progress + "% done");
+        setUpload(progress);
         switch (snapshot.state) {
           case "paused":
             console.log("Upload is paused");
@@ -56,15 +64,28 @@ const AddProductForm = () => {
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          let catArray = [];
+          categories.map((item) => catArray.push(item.id));
+          setLoading(false);
+          dispatch(fetchProductStart());
           axiosRequest
             .post("api/v1/products/add", {
               title: title,
               img: downloadURL,
               price,
-              categories: categories.map((item) => item.text),
+              categories: catArray,
               desc: desc,
             })
-            .then((res) => res.data);
+            .then((res) => {
+              dispatch(fetchProductSucess(res.data));
+              setTitle("");
+              setPrice("");
+              setDesc("");
+              setCategories("");
+              setFile("");
+              window.location.replace("/seller/dashboard");
+            })
+            .catch((err) => dispatch(fetchProductFailure()));
         });
       }
     );
@@ -95,13 +116,13 @@ const AddProductForm = () => {
         dispatch(fetchCategoryStart());
         const res = await axiosRequest.get("/api/v1/categories");
         dispatch(fetchCategorySuccess(res.data));
-        console.log(res.data);
       } catch (error) {
         dispatch(fetchCategoryFailure());
       }
     };
     fetchCategory();
   }, []);
+
   return (
     <form className="add_product_form" onSubmit={handleSubmit}>
       <div className="form_items">
@@ -187,6 +208,8 @@ const AddProductForm = () => {
           Choose
         </label>
       </div>
+      {loading && <h5>{Math.round(upload)}% uploading</h5>}
+      {category.loading && <h5>Pleas wait...</h5>}
     </form>
   );
 };

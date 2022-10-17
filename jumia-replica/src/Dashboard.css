@@ -13,7 +13,6 @@
     position: sticky;
     top: 0;
     background: var(--text-primary-color);
-    
 }
 .dashboard .dashboard_content {
     flex: 6;
@@ -36,11 +35,11 @@
 .dashboard ul li:hover {
     background: var(--light-bg);
 }
-@media screen and (max-width: 768px) {
+/* @media screen and (max-width: 768px) {
     .dashboard {
        display: none;
     }
-}
+} */
 .dash_navbar {
     display: flex;
     justify-content: space-between;
