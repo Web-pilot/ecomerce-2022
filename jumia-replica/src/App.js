@@ -28,6 +28,11 @@ import {
   fetchCategoryStart,
   fetchCategorySuccess,
 } from "./redux/categoryReducer";
+import {
+  fetchProductFailure,
+  fetchProductStart,
+  fetchProductSucess,
+} from "./redux/productReducer";
 
 function App() {
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -64,6 +69,18 @@ function App() {
     fetchCategory();
   }, []);
 
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        dispatch(fetchProductStart());
+        const res = await axiosRequest.get("api/v1/products");
+        dispatch(fetchProductSucess(res.data));
+      } catch (error) {
+        dispatch(fetchProductFailure());
+      }
+    };
+    fetchProduct();
+  }, []);
   return (
     <BrowserRouter>
       <Category categoryOpen={categoryOpen} />
@@ -87,7 +104,7 @@ function App() {
           path="/cart"
           element={user.user ? <Cart /> : <Navigate to="/account/sign-in" />}
         />
-        <Route path="/product-name/:id" element={<ProductDetails />} />
+        <Route path="/:title/:id" element={<ProductDetails />} />
         <Route
           path="/customer/account"
           element={user.user ? <Account /> : <Navigate to="/account/sign-in" />}

@@ -40,7 +40,7 @@ const EditProductForm = () => {
       setPrice(product[0].price);
       setSingleProduct(product);
     }
-  }, [id, products, category, categories]);
+  }, [id, products, category]);
 
   // Send data to server
   const handleSubmit = (e) => {
@@ -104,6 +104,29 @@ const EditProductForm = () => {
         }
       );
     } else {
+      let catArray = [];
+      categories
+        ? categories.map((item) => catArray.push(item.id))
+        : recentCategories.map((item) => catArray.push(item._id));
+      setLoading(false);
+      dispatch(editProductStart());
+      axiosRequest
+        .put(`api/v1/products/edit/${id}`, {
+          title: title,
+          price,
+          categories: catArray,
+          desc: desc,
+        })
+        .then((res) => {
+          dispatch(editProductSuccess());
+          setTitle("");
+          setPrice("");
+          setDesc("");
+          setCategories("");
+          setFile("");
+          window.location.replace("/seller/dashboard");
+        })
+        .catch((err) => dispatch(editProductFailure()));
     }
   };
 

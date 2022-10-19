@@ -1,6 +1,6 @@
 const Product = require("../Models/Product");
 
-const addProduct = async (req, res) => {
+const addOrder = async (req, res) => {
   const { title, img, price, categories, desc } = req.body;
   if (req.user) {
     const userId = req.user.id;
@@ -80,6 +80,6 @@ module.exports = {
   deleteProduct,
   getAllProduct,
   getSingleProduct,
-  addProduct,
+  addOrder,
   editProduct,
 };

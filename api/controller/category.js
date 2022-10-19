@@ -1,7 +1,7 @@
 const Category = require("../Models/Category");
 
 const addCategory = async (req, res) => {
-  if (req.isAuthenticated) {
+  if (req.isAuthenticated()) {
     try {
       const category = new Category({
         text: req.body,
@@ -18,7 +18,7 @@ const addCategory = async (req, res) => {
 
 const editCategory = async (req, res) => {
   const { id } = req.params.id;
-  if (req.isAuthenticated) {
+  if (req.isAuthenticated()) {
     try {
       const updatedCategory = await Category.findByIdAndUpdate(
         id,

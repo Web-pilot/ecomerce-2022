@@ -16,10 +16,10 @@ router.post("/add", addProduct);
 router.put("/edit/:id", editProduct);
 
 // Get all product from the datase
-router.get("", getAllProduct);
+router.get("/", getAllProduct);
 
 // Get single product from the database
-router.get("", getSingleProduct);
+router.get("/:id", getSingleProduct);
 
 // Delete product from database
 router.delete("/delete/:id", deleteProduct);

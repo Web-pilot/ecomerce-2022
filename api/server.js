@@ -10,6 +10,7 @@ require("./passport");
 const authRoute = require("./Routes/auth");
 const productRoute = require("./Routes/product");
 const categoryRoute = require("./Routes/category");
+const commentRoute = require("./Routes/comment");
 
 // initialize app
 const app = express();
@@ -42,6 +43,7 @@ mongoose
 app.use("/auth", authRoute);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/categories", categoryRoute);
+app.use("/api/v1/comments", commentRoute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
