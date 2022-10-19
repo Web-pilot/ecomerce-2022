@@ -1,0 +1,6 @@
+.selected_cat {
+    opacity: 0.5;
+    background-color: rgb(191, 234, 191);
+    margin: 0 5px;
+    border-radius: 5px;
+}

@@ -1,4 +1,5 @@
 import "../../Dashboard.css";
+import "./EditProductForm.css";
 import { useEffect, useState } from "react";
 import {
   getStorage,
@@ -9,11 +10,10 @@ import {
 import app from "../../firebase";
 import { axiosRequest } from "../../axiosRequestMethod";
 import { useDispatch, useSelector } from "react-redux";
-
 import {
-  fetchProductFailure,
-  fetchProductStart,
-  fetchProductSucess,
+  editProductFailure,
+  editProductStart,
+  editProductSuccess,
 } from "../../redux/productReducer";
 import { useLocation } from "react-router-dom";
 const EditProductForm = () => {
@@ -29,7 +29,8 @@ const EditProductForm = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const id = location.pathname.split("/")[4];
-  const [SingleProduct, setSingleProduct] = useState([]);
+  const [singleProduct, setSingleProduct] = useState([]);
+  const [recentCategories, setRecentCategories] = useState([]);
 
   useEffect(() => {
     const product = products.filter((item) => item._id === id);
@@ -39,69 +40,71 @@ const EditProductForm = () => {
       setPrice(product[0].price);
       setSingleProduct(product);
     }
-    if (category) {
-      setCategories(category.categories);
-    }
   }, [id, products, category, categories]);
 
   // Send data to server
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const fileName = new Date().getTime() + file.name;
-    const storage = getStorage(app);
-    const storageRef = ref(storage, fileName);
+    if (file) {
+      const fileName = new Date().getTime() + file.name;
+      const storage = getStorage(app);
+      const storageRef = ref(storage, fileName);
 
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setLoading(true);
-        console.log("Upload is " + progress + "% done");
-        setUpload(progress);
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            break;
+      const uploadTask = uploadBytesResumable(storageRef, file);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progress =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setLoading(true);
+          console.log("Upload is " + progress + "% done");
+          setUpload(progress);
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            let catArray = [];
+            categories
+              ? categories.map((item) => catArray.push(item.id))
+              : recentCategories.map((item) => catArray.push(item._id));
+            setLoading(false);
+            dispatch(editProductStart());
+            axiosRequest
+              .put(`api/v1/products/edit/${id}`, {
+                title: title,
+                img: downloadURL,
+                price,
+                categories: catArray,
+                desc: desc,
+              })
+              .then((res) => {
+                dispatch(editProductSuccess());
+                setTitle("");
+                setPrice("");
+                setDesc("");
+                setCategories("");
+                setFile("");
+                window.location.replace("/seller/dashboard");
+              })
+              .catch((err) => dispatch(editProductFailure()));
+          });
         }
-      },
-      (error) => {
-        // Handle unsuccessful uploads
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          let catArray = [];
-          categories.map((item) => catArray.push(item.id));
-          setLoading(false);
-          dispatch(fetchProductStart());
-          axiosRequest
-            .post(`api/v1/products/edit/${id}`, {
-              title: title,
-              img: downloadURL,
-              price,
-              categories: catArray,
-              desc: desc,
-            })
-            .then((res) => {
-              dispatch(fetchProductSucess(res.data));
-              setTitle("");
-              setPrice("");
-              setDesc("");
-              setCategories("");
-              setFile("");
-              window.location.replace("/seller/dashboard");
-            })
-            .catch((err) => dispatch(fetchProductFailure()));
-        });
-      }
-    );
+      );
+    } else {
+    }
   };
 
   // populate array on checked box
@@ -123,6 +126,16 @@ const EditProductForm = () => {
       setCategories(filteredCategories);
     }
   };
+
+  useEffect(() => {
+    const array = [];
+    singleProduct[0]?.categories.map((cat) =>
+      category.categories.map(
+        (item) => cat === item._id && array.push({ ...item })
+      )
+    );
+    setRecentCategories(array);
+  }, [singleProduct, category]);
 
   return (
     <form className="add_product_form" onSubmit={handleSubmit}>
@@ -152,7 +165,12 @@ const EditProductForm = () => {
 
         <div className="form_group">
           <label htmlFor="category">Categories</label>
-          {categories?.map((category) => (
+          {recentCategories.map((item) => (
+            <span key={item._id} className="selected_cat">
+              {item.text}{" "}
+            </span>
+          ))}
+          {category.categories?.map((category) => (
             <div
               key={category._id}
               style={{
@@ -192,7 +210,7 @@ const EditProductForm = () => {
           {file ? (
             <img src={URL.createObjectURL(file)} alt="" />
           ) : (
-            <img src={SingleProduct[0]?.img} alt="" />
+            <img src={singleProduct[0]?.img} alt="" />
           )}
           <h1 className="account_section_title ">Display Image</h1>
         </div>

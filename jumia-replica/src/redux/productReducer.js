@@ -20,7 +20,17 @@ const productSlice = createSlice({
     fetchProductFailure(state, action) {
       state.loading = false;
       state.error = true;
-      state.errorMessage = action.payload.errorMessage;
+    },
+    editProductStart(state, action) {
+      state.loading = true;
+    },
+    editProductSuccess(state) {
+      state.loading = false;
+      state.error = false;
+    },
+    editProductFailure(state, action) {
+      state.loading = false;
+      state.error = true;
     },
     deleteProductStart: (state) => {
       state.loading = true;
@@ -65,5 +75,8 @@ export const {
   fetchProductFailure,
   fetchProductStart,
   fetchProductSucess,
+  editProductFailure,
+  editProductStart,
+  editProductSuccess,
 } = productSlice.actions;
 export default productSlice.reducer;

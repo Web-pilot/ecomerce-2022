@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./Home";
 import BottomNavbar from "./components/BottomNavbar/BottomNavbar";
 import Category from "./components/SmallWidthCategory/Category";
@@ -17,7 +17,7 @@ import AddProduct from "./components/AddProduct/AddProduct";
 import DashboardProductEdit from "./components/DashboardProductEdit/DashboardProductEdit";
 import DashboardProductFullDetails from "./components/DashboardProductFullDetails/DashboardProductFullDetails";
 import { axiosRequest } from "./axiosRequestMethod";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   fetchUserFailure,
   fetchUserStart,
@@ -32,6 +32,7 @@ import {
 function App() {
   const [categoryOpen, setCategoryOpen] = useState(false);
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
   // const [dispatch] = useReducer(userReducer, INITIAL_STATE);
 
@@ -71,24 +72,61 @@ function App() {
         setCategoryOpen={setCategoryOpen}
       />
       <Routes>
-        <Route path="/seller/dashboard" element={<Dashboard />} />
-        <Route path="/account/sign-in" element={<SignIn />} />
+        <Route
+          path="/seller/dashboard"
+          element={
+            user.user ? <Dashboard /> : <Navigate to="/account/sign-in" />
+          }
+        />
+        <Route
+          path="/account/sign-in"
+          element={user.user ? <Navigate to="/" /> : <SignIn />}
+        />
         <Route path="/" element={<Home categoryOpen={categoryOpen} />} />
-        <Route path="/cart" element={<Cart />} />
+        <Route
+          path="/cart"
+          element={user.user ? <Cart /> : <Navigate to="/account/sign-in" />}
+        />
         <Route path="/product-name/:id" element={<ProductDetails />} />
-        <Route path="/customer/account" element={<Account />} />
-        <Route path="/customer/account/inbox" element={<Inbox />} />
-        <Route path="/customer/orders/index" element={<Order />} />
+        <Route
+          path="/customer/account"
+          element={user.user ? <Account /> : <Navigate to="/account/sign-in" />}
+        />
+        <Route
+          path="/customer/account/inbox"
+          element={user.user ? <Inbox /> : <Navigate to="/account/sign-in" />}
+        />
+        <Route
+          path="/customer/orders/index"
+          element={user.user ? <Order /> : <Navigate to="/account/sign-in" />}
+        />
         <Route path="/customer/wishlists/index" element={<SavedItems />} />
         <Route path="/history" element={<RecentlyViewItems />} />
-        <Route path="/dashboard/products/add" element={<AddProduct />} />
+        <Route
+          path="/dashboard/products/add"
+          element={
+            user.user ? <AddProduct /> : <Navigate to="/account/sign-in" />
+          }
+        />
         <Route
           path="/dashboard/products/edit/:id"
-          element={<DashboardProductEdit />}
+          element={
+            user.user ? (
+              <DashboardProductEdit />
+            ) : (
+              <Navigate to="/account/sign-in" />
+            )
+          }
         />
         <Route
           path="/dashboard/products/info"
-          element={<DashboardProductFullDetails />}
+          element={
+            user.user ? (
+              <DashboardProductFullDetails />
+            ) : (
+              <Navigate to="/account/sign-in" />
+            )
+          }
         />
       </Routes>
     </BrowserRouter>
