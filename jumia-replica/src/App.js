@@ -23,6 +23,11 @@ import {
   fetchUserStart,
   fetchUserSuccess,
 } from "./redux/userReducer";
+import {
+  fetchCategoryFailure,
+  fetchCategoryStart,
+  fetchCategorySuccess,
+} from "./redux/categoryReducer";
 
 function App() {
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -43,6 +48,19 @@ function App() {
 
   useEffect(() => {
     fetchLoginUser();
+  }, []);
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        dispatch(fetchCategoryStart());
+        const res = await axiosRequest.get("/api/v1/categories");
+        dispatch(fetchCategorySuccess(res.data));
+      } catch (error) {
+        dispatch(fetchCategoryFailure());
+      }
+    };
+    fetchCategory();
   }, []);
 
   return (

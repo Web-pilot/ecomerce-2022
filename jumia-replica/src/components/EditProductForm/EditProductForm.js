@@ -9,11 +9,7 @@ import {
 import app from "../../firebase";
 import { axiosRequest } from "../../axiosRequestMethod";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCategoryFailure,
-  fetchCategoryStart,
-  fetchCategorySuccess,
-} from "../../redux/categoryReducer";
+
 import {
   fetchProductFailure,
   fetchProductStart,
@@ -33,15 +29,20 @@ const EditProductForm = () => {
   const [loading, setLoading] = useState(false);
   const location = useLocation();
   const id = location.pathname.split("/")[4];
-  const [product, setProduct] = useState([]);
+  const [SingleProduct, setSingleProduct] = useState([]);
 
   useEffect(() => {
     const product = products.filter((item) => item._id === id);
-    setTitle(product.title);
-    setDesc(product.desc);
-    setPrice(product.price);
-    setProduct(product);
-  }, [id, products]);
+    if (product[0]) {
+      setTitle(product[0].title);
+      setDesc(product[0].desc);
+      setPrice(product[0].price);
+      setSingleProduct(product);
+    }
+    if (category) {
+      setCategories(category.categories);
+    }
+  }, [id, products, category, categories]);
 
   // Send data to server
   const handleSubmit = (e) => {
@@ -81,7 +82,7 @@ const EditProductForm = () => {
           setLoading(false);
           dispatch(fetchProductStart());
           axiosRequest
-            .post("api/v1/products/add", {
+            .post(`api/v1/products/edit/${id}`, {
               title: title,
               img: downloadURL,
               price,
@@ -111,6 +112,7 @@ const EditProductForm = () => {
         {
           id: item.target.id,
           text: item.target.value,
+          isChecked: true,
         },
       ]);
     } else {
@@ -121,19 +123,6 @@ const EditProductForm = () => {
       setCategories(filteredCategories);
     }
   };
-
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        dispatch(fetchCategoryStart());
-        const res = await axiosRequest.get("/api/v1/categories");
-        dispatch(fetchCategorySuccess(res.data));
-      } catch (error) {
-        dispatch(fetchCategoryFailure());
-      }
-    };
-    fetchCategory();
-  }, []);
 
   return (
     <form className="add_product_form" onSubmit={handleSubmit}>
@@ -163,7 +152,7 @@ const EditProductForm = () => {
 
         <div className="form_group">
           <label htmlFor="category">Categories</label>
-          {category.categories?.map((category) => (
+          {categories?.map((category) => (
             <div
               key={category._id}
               style={{
@@ -203,7 +192,7 @@ const EditProductForm = () => {
           {file ? (
             <img src={URL.createObjectURL(file)} alt="" />
           ) : (
-            <img src={product.img} alt="" />
+            <img src={SingleProduct[0]?.img} alt="" />
           )}
           <h1 className="account_section_title ">Display Image</h1>
         </div>

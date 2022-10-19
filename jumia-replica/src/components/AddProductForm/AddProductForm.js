@@ -9,11 +9,7 @@ import {
 import app from "../../firebase";
 import { axiosRequest } from "../../axiosRequestMethod";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchCategoryFailure,
-  fetchCategoryStart,
-  fetchCategorySuccess,
-} from "../../redux/categoryReducer";
+
 import {
   fetchProductFailure,
   fetchProductStart,
@@ -109,19 +105,6 @@ const AddProductForm = () => {
       setCategories(filteredCategories);
     }
   };
-
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        dispatch(fetchCategoryStart());
-        const res = await axiosRequest.get("/api/v1/categories");
-        dispatch(fetchCategorySuccess(res.data));
-      } catch (error) {
-        dispatch(fetchCategoryFailure());
-      }
-    };
-    fetchCategory();
-  }, []);
 
   return (
     <form className="add_product_form" onSubmit={handleSubmit}>
