@@ -5,6 +5,7 @@ const {
   getAllProduct,
   getSingleProduct,
   deleteProduct,
+  getProductByUser,
 } = require("../controller/Product");
 
 const router = express.Router();
@@ -17,6 +18,9 @@ router.put("/edit/:id", editProduct);
 
 // Get all product from the datase
 router.get("/", getAllProduct);
+
+// Get all product by user
+router.get("/user", getProductByUser);
 
 // Get single product from the database
 router.get("/:id", getSingleProduct);

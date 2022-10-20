@@ -50,6 +50,18 @@ const getAllProduct = async (req, res) => {
     res.status(500).json(error.message);
   }
 };
+const getProductByUser = async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
+      const products = await Product.find({ userId: req.user.id });
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(500).json(error.message);
+    }
+  } else {
+    res.status(401).json("You are not authenticated");
+  }
+};
 
 const getSingleProduct = async (req, res) => {
   const { id } = req.params;
@@ -82,4 +94,5 @@ module.exports = {
   getSingleProduct,
   addProduct,
   editProduct,
+  getProductByUser,
 };
