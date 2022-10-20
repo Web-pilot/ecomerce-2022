@@ -16,6 +16,7 @@ const AppBar = () => {
   // const [ user] = useReducer(INITIAL_STATE.user);
   const [dropDown, setDropDown] = useState(false);
   const user = useSelector((state) => state.user.user);
+  const badge = useSelector((state) => state.carts);
 
   return (
     <header className="navbar">
@@ -85,8 +86,11 @@ const AppBar = () => {
             </div>
             <div className="cart">
               <Link to="/cart">
-                <span>
+                <span className="cart_icon_cont">
                   <BsCartPlus /> <span className="hide">Cart</span>
+                  <span className="cart_badge">
+                    {badge.quantity > 0 && badge.quantity}
+                  </span>
                 </span>
               </Link>
             </div>

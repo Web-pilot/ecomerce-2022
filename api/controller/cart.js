@@ -1,5 +1,6 @@
 const Cart = require("../Models/Cart");
 const Product = require("../Models/Product");
+const User = require("../Models/User");
 
 const addCartProduct = async (req, res) => {
   const { productId } = req.params;
@@ -11,9 +12,18 @@ const addCartProduct = async (req, res) => {
         userId,
       });
       const newCartProduct = await product.save();
-      res.status(200).json(newCartProduct);
+      const cartProduct = await Product.findById(newCartProduct.productId);
+      const user = await Product.findById(newCartProduct.userId);
+      const cart = {
+        title: cartProduct.title,
+        seller: user.username,
+        price: cartProduct.price,
+        quantity: 1,
+        img: cartProduct.img,
+      };
+      res.status(200).json(cart);
     } catch (error) {
-      res.status(500).json(err.message);
+      res.status(500).json(error.message);
     }
   } else {
     res.status(401).json("Not authenticated");
@@ -22,10 +32,21 @@ const addCartProduct = async (req, res) => {
 
 const getAllCartProduct = async (req, res) => {
   try {
-    const cartProducts = await Cart.find();
     const productArray = [];
+    const cartProducts = await Cart.find();
     cartProducts.forEach(
-      (item = async () => productArray.push(await Product.findById(item._id)))
+      (item = async () => {
+        const cartProduct = await Product.findById(item.productId);
+        const user = await Product.findById(item.userId);
+        const cart = {
+          title: cartProduct.title,
+          seller: user.username,
+          price: cartProduct.price,
+          quantity: 1,
+          img: cartProduct.img,
+        };
+        productArray.push(cart);
+      })
     );
     res.status(200).json(productArray);
   } catch (error) {
@@ -39,7 +60,18 @@ const getCartProductByuser = async (req, res) => {
       const cartProduct = await Cart.find({ userId: req.user.id });
       const productArray = [];
       cartProduct.forEach(
-        (item = async () => productArray.push(await Product.findById(item._id)))
+        (item = async () => {
+          const userCart = await Product.findById(item.productId);
+          const user = await User.findOne({ googleId: item.userId });
+          const cart = {
+            title: userCart.title,
+            seller: user.username,
+            price: userCart.price,
+            quantity: 1,
+            img: userCart.img,
+          };
+          productArray.push(cart);
+        })
       );
       res.status(200).json(productArray);
     } catch (error) {
@@ -53,12 +85,16 @@ const getCartProductByuser = async (req, res) => {
 const deleteCartItem = async (req, res) => {
   const { id } = req.params;
   if (req.user) {
-    const product = await Cart.findById(id);
-    if (product.userId !== req.user.id) {
-      res.status(403).json("You are not allowed to do this");
-    } else {
-      const deletedItem = await Cart.findByIdAndDelete(id);
-      res.status(200).json(deletedItem);
+    try {
+      const product = await Cart.findById(id);
+      if (product.userId !== req.user.id) {
+        res.status(403).json("You are not allowed to do this");
+      } else {
+        const deletedItem = await Cart.findByIdAndDelete(id);
+        res.status(200).json(deletedItem);
+      }
+    } catch (error) {
+      res.status(error.message);
     }
   } else {
     res.status(401).json("You are not authenticated");

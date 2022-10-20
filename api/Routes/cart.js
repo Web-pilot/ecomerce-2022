@@ -9,7 +9,7 @@ const {
 const router = express.Router();
 
 // Add product to database
-router.post("/add", addCartProduct);
+router.post("/add/:productId", addCartProduct);
 
 // Get all product from the datase
 router.get("/", getAllCartProduct);
