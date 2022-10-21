@@ -14,7 +14,7 @@ passport.use(
       //  const user = await User.findOrCreate({ googleId: profile.id }, function (err, user) {
       //     return done(err, user);
       //   });
-      const findUser = await User.find({ googleId: profile.id });
+      const findUser = await User.findOne({ googleId: profile.id });
       if (findUser) {
         return done(null, profile);
       } else {

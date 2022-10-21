@@ -13,8 +13,9 @@ const addCartProduct = async (req, res) => {
       });
       const newCartProduct = await product.save();
       const cartProduct = await Product.findById(newCartProduct.productId);
-      const user = await Product.findById(newCartProduct.userId);
+      const user = await User.findOne({ googleId: newCartProduct.userId });
       const cart = {
+        _id: cartProduct._id,
         title: cartProduct.title,
         seller: user.username,
         price: cartProduct.price,
@@ -63,14 +64,16 @@ const getCartProductByuser = async (req, res) => {
         (item = async () => {
           const userCart = await Product.findById(item.productId);
           const user = await User.findOne({ googleId: item.userId });
-          const cart = {
-            title: userCart.title,
-            seller: user.username,
-            price: userCart.price,
-            quantity: 1,
-            img: userCart.img,
-          };
-          productArray.push(cart);
+          if (userCart && user) {
+            const cart = {
+              title: userCart.title,
+              seller: user.username,
+              price: userCart.price,
+              quantity: 1,
+              img: userCart.img,
+            };
+            productArray.push(cart);
+          }
         })
       );
       res.status(200).json(productArray);

@@ -19,7 +19,10 @@ router.get("/login/failure", (req, res) => {
 
 router.get("/logout", (req, res) => {
   req.logout();
-  res.redirect(CLIENT_URL);
+  res.status(200).json({
+    sucess: true,
+    redirec_url: CLIENT_URL
+  })
 });
 
 router.get("/google", passport.authenticate("google", { scope: ["profile"] }));

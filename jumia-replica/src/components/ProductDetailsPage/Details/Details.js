@@ -27,7 +27,11 @@ const Details = ({ product }) => {
     try {
       dispatch(addProductToCartStart());
       const res = await axiosRequest.post("api/v1/carts/add/" + productId);
-      dispatch(addProductToCartSuccess(res.data));
+      dispatch(addProductToCartSuccess({
+        item: res.data,
+        
+        price: res.data.price
+      }));
     } catch (error) {
       dispatch(addProductToCartFailure());
     }

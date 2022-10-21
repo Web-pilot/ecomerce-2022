@@ -22,7 +22,6 @@ const Cart = () => {
               <h4 className="account_section_title">
                 Cart ({carts.products.length})
               </h4>
-
               {carts.products.map((item) => (
                 <div className="cart_item_container">
                   <div className="left_cart">

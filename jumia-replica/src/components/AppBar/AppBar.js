@@ -3,21 +3,32 @@ import { AiOutlineUser, AiOutlineSearch, AiOutlineHeart } from "react-icons/ai";
 import {
   MdOutlineArrowDropDown,
   MdOutlineArrowDropUp,
-  MdOutlinePersonOutline,
   MdPerson,
 } from "react-icons/md";
 import { BsCartPlus } from "react-icons/bs";
 import { VscPackage } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { axiosRequest } from "../../axiosRequestMethod";
 
 const AppBar = () => {
   // const [ user] = useReducer(INITIAL_STATE.user);
   const [dropDown, setDropDown] = useState(false);
   const user = useSelector((state) => state.user.user);
   const badge = useSelector((state) => state.carts);
+  const dispatch = useDispatch();
 
+  const logOut = async () => {
+    try {
+      const res = await axiosRequest.get("auth/logout");
+      console.log(res);
+      dispatch(logOut());
+      window.location.reload();
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <header className="navbar">
       <nav className="container nav">
@@ -79,7 +90,11 @@ const AppBar = () => {
                         <AiOutlineHeart /> Saved Items{" "}
                       </Link>
                     </li>
-                    {user && <li className="logout">LOGOUT</li>}
+                    {user && (
+                      <li className="logout" onClick={logOut}>
+                        LOGOUT
+                      </li>
+                    )}
                   </ul>
                 </div>
               )}

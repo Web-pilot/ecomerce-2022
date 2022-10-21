@@ -21,9 +21,12 @@ const productSlice = createSlice({
       state.loading = false;
       state.error = true;
     },
+    logOut: (state) => {
+      state.user = null;
+    },
   },
 });
 
-export const { fetchUserFailure, fetchUserStart, fetchUserSuccess } =
+export const { fetchUserFailure, fetchUserStart, fetchUserSuccess, logOut } =
   productSlice.actions;
 export default productSlice.reducer;

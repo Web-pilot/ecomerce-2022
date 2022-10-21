@@ -15,7 +15,7 @@ const cartSlice = createSlice({
       state.error = false;
     },
     addProductToCartSuccess: (state, action) => {
-      state.products.push(action.payload);
+      state.products.push(action.payload.item);
       state.quantity += 1;
       state.total += parseInt(action.payload.price);
       state.loading = false;
