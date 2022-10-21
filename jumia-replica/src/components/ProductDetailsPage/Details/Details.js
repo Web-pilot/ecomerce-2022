@@ -14,6 +14,7 @@ import {
   addProductToCartFailure,
   addProductToCartStart,
   addProductToCartSuccess,
+  increementQuantity,
 } from "../../../redux/cartReducer";
 import { axiosRequest } from "../../../axiosRequestMethod";
 
@@ -23,15 +24,24 @@ const Details = ({ product }) => {
   const dispatch = useDispatch();
   const carts = useSelector((state) => state.carts);
 
-  const handleAddToCart = async () => {
+  const handleAddToCart = async (id) => {
     try {
       dispatch(addProductToCartStart());
       const res = await axiosRequest.post("api/v1/carts/add/" + productId);
-      dispatch(addProductToCartSuccess({
-        item: res.data,
-        
-        price: res.data.price
-      }));
+      dispatch(
+        addProductToCartSuccess({
+          item: res.data,
+          price: res.data.price,
+        })
+      );
+      // const inCart = carts.products.find((item) => item.productId === id);
+      // console.log(inCart.productId, id);
+      // if (inCart.productId) {
+      //   const res = await axiosRequest.put(`api/v1/carts/increement/${id}`);
+      //   dispatch(increementQuantity({ id: res.data._id }));
+      // } else {
+
+      // }
     } catch (error) {
       dispatch(addProductToCartFailure());
     }
@@ -85,7 +95,7 @@ const Details = ({ product }) => {
         <div className="bottom">
           <h3>₦ {product?.price}</h3>
           <span className="variation">In stock</span>
-          {carts.products.find((item) => item._id === productId) ? (
+          {carts.products.find((item) => item._productId === productId) ? (
             <div
               className="btn_block"
               style={{ opacity: "0.5", cursor: "not-allowed" }}
@@ -96,7 +106,10 @@ const Details = ({ product }) => {
               <span>Item added to cart</span>
             </div>
           ) : (
-            <div className="btn_block" onClick={handleAddToCart}>
+            <div
+              className="btn_block"
+              onClick={() => handleAddToCart(product._id)}
+            >
               <span className="add_to_cart_btn_icon">
                 <BsCartX />
               </span>{" "}

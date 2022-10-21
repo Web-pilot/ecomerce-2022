@@ -4,6 +4,8 @@ const {
   getAllCartProduct,
   getCartProductByuser,
   deleteCartItem,
+  increementQuantity,
+  decreementQuantity,
 } = require("../controller/cart");
 
 const router = express.Router();
@@ -19,5 +21,11 @@ router.get("/user", getCartProductByuser);
 
 // Delete product from database
 router.delete("/delete/:id", deleteCartItem);
+
+// Increeement cart quantity
+router.put("/increement/:id", increementQuantity);
+
+// Decreement cart quantity
+router.put("/decreement/:id", decreementQuantity);
 
 module.exports = router;

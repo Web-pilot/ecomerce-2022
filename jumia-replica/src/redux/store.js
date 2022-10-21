@@ -7,11 +7,11 @@ import thunk from "redux-thunk";
 // configureStore.js
 
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import sessionStorage from "redux-persist/es/storage/session";
 
 const persistConfig = {
   key: "root",
-  storage,
+  storage: sessionStorage,
 };
 
 const rootReducer = combineReducers({

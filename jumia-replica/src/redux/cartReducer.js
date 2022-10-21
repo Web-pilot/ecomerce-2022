@@ -30,13 +30,72 @@ const cartSlice = createSlice({
     },
     fetchCartProductSuccess: (state, action) => {
       state.products = action.payload;
-      state.quantity = state.products.map((item) => (item += item.quantity));
-      state.total = state.products.map(
-        (item) => (item += item.price * item.quantity)
+      let total = 0;
+      let quantity = 0;
+      state.quantity = state.products.map(
+        (item) => (quantity += parseInt(item.quantity))
       );
+      state.products.map(
+        (item) => (total += parseInt(item.price) * item.quantity)
+      );
+      state.total = total;
+      state.quantity = quantity;
       state.loading = false;
     },
     fetchCartProductFailure: (state) => {
+      state.loading = false;
+      state.error = true;
+    },
+    increementQuantity: (state, action) => {
+      state.products.find(
+        (item) => item._id === action.payload.id
+      ).quantity += 1;
+      let total = 0;
+      state.products.map(
+        (item) => (total += parseInt(item.price) * item.quantity)
+      );
+      state.total = total;
+    },
+    decreementQuantity: (state, action) => {
+      const item = state.products.find(
+        (item) => item._id === action.payload.id
+      );
+      if (item.quantity > 1) {
+        item.quantity -= 1;
+      }
+      let total = 0;
+      let quantity = 0;
+      state.quantity = state.products.map(
+        (item) => (quantity += parseInt(item.quantity))
+      );
+      state.products.map(
+        (item) => (total += parseInt(item.price) * item.quantity)
+      );
+      state.total = total;
+      state.quantity = quantity;
+    },
+    deleteCartStart: (state) => {
+      state.loading = true;
+      state.error = false;
+    },
+    deleteCartSuccess: (state, action) => {
+      state.products.splice(
+        state.products.findIndex((item) => item._id === action.payload.id),
+        1
+      );
+      let total = 0;
+      let quantity = 0;
+      state.quantity = state.products.map(
+        (item) => (quantity += parseInt(item.quantity))
+      );
+      state.products.map(
+        (item) => (total += parseInt(item.price) * item.quantity)
+      );
+      state.total = total;
+      state.quantity = quantity;
+      state.loading = false;
+    },
+    deleteCartFailure: (state) => {
       state.loading = false;
       state.error = true;
     },
@@ -50,5 +109,10 @@ export const {
   fetchCartProductFailure,
   fetchCartProductStart,
   fetchCartProductSuccess,
+  increementQuantity,
+  decreementQuantity,
+  deleteCartStart,
+  deleteCartFailure,
+  deleteCartSuccess,
 } = cartSlice.actions;
 export default cartSlice.reducer;

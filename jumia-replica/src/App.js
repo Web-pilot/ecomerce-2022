@@ -49,7 +49,6 @@ function App() {
     try {
       const res = await axiosRequest.get("auth/login/success");
       dispatch(fetchUserSuccess(res.data));
-      console.log(res.data);
     } catch (error) {
       dispatch(fetchUserFailure());
     }
