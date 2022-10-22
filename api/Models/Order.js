@@ -14,6 +14,7 @@ const orderSchema = new mongoose.Schema(
       ],
     },
     shippingAddress: { type: Object, require: true },
+    deleveryStatus: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

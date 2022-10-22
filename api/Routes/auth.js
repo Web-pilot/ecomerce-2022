@@ -21,11 +21,14 @@ router.get("/logout", (req, res) => {
   req.logout();
   res.status(200).json({
     sucess: true,
-    redirec_url: CLIENT_URL
-  })
+    redirec_url: CLIENT_URL,
+  });
 });
 
-router.get("/google", passport.authenticate("google", { scope: ["profile"] }));
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
 
 router.get(
   "/google/callback",

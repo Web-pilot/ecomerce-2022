@@ -1,0 +1,28 @@
+.success_checkout {
+    background: white;
+    padding: 20px;
+    min-height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    line-height: 25px;
+}
+
+.success_checkout h3 {
+    opacity: 0.7;
+}
+
+.success_checkout .success_color {
+    color: green;
+}
+
+.success_checkout p {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.success_checkout p .success_color {
+    color: var(--primary-color);
+}

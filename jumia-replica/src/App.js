@@ -38,6 +38,7 @@ import {
   fetchCartProductSuccess,
   fetchCartProductFailure,
 } from "./redux/cartReducer";
+import CheckoutSuccess from "./CheckOutSuccess/CheckoutSuccess";
 
 function App() {
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -159,6 +160,12 @@ function App() {
             ) : (
               <Navigate to="/account/sign-in" />
             )
+          }
+        />
+        <Route
+          path="/checkout/success"
+          element={
+            user.user ? <CheckoutSuccess /> : <Navigate to="/account/sign-in" />
           }
         />
       </Routes>

@@ -22,6 +22,7 @@ passport.use(
           username: profile.family_name,
           profilePic: profile.picture,
           googleId: profile.id,
+          email: profile.email,
         });
         await user.save();
         return done(null, profile);

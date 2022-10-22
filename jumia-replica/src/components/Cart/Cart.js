@@ -10,13 +10,30 @@ import {
   deleteCartFailure,
   deleteCartStart,
   deleteCartSuccess,
+  fetchCartProductFailure,
+  fetchCartProductStart,
+  fetchCartProductSuccess,
   increementQuantity,
 } from "../../redux/cartReducer";
 import { axiosRequest } from "../../axiosRequestMethod";
+import { useEffect } from "react";
 
 const Cart = () => {
   const carts = useSelector((state) => state.carts);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        dispatch(fetchCartProductStart());
+        const res = await axiosRequest.get("api/v1/carts/user");
+        dispatch(fetchCartProductSuccess(res.data));
+      } catch (error) {
+        dispatch(fetchCartProductFailure());
+      }
+    };
+    fetchProduct();
+  }, []);
 
   const handleQuanity = async ({ type, id }) => {
     if (type === "increement") {
@@ -38,6 +55,16 @@ const Cart = () => {
     }
   };
 
+  const handleCheckOut = async () => {
+    try {
+      const res = await axiosRequest.post("stripe/create-checkout-session", {
+        items: carts.products,
+      });
+      window.location = res.data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <>
       <AppBar />
@@ -99,9 +126,9 @@ const Cart = () => {
                 <h2> ₦ {carts.total}</h2>
               </div>
               <div className="check_out">
-                <a href="@" className="btn">
+                <span className="btn" onClick={handleCheckOut}>
                   Check Out ₦({carts.total})
-                </a>
+                </span>
               </div>
             </div>
           </div>

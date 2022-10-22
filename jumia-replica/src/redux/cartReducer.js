@@ -29,6 +29,7 @@ const cartSlice = createSlice({
       state.error = false;
     },
     fetchCartProductSuccess: (state, action) => {
+      state.products = [];
       state.products = action.payload;
       let total = 0;
       let quantity = 0;
