@@ -9,14 +9,27 @@ const TopSellingItem = () => {
   return (
     <div className="container container_section">
       <h3 className="container_title">Top selling Item</h3>
-      <div className="top_selling_item">
-        {products.products.map((product) => (
-          <Link to={`/${product.title}/${product._id}`} key={product._id}>
-            <MediumCard product={product} />
-          </Link>
-        ))}
-        {products.loading && <h6>Loading...</h6>}
-      </div>
+      {products.products ? (
+        <div className="top_selling_item">
+          {products.products.map((product) => (
+            <Link to={`/${product.title}/${product._id}`} key={product._id}>
+              <MediumCard product={product} />
+            </Link>
+          ))}
+          {products.loading && <h6>Loading...</h6>}
+        </div>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            width: "100%",
+            height: "100px",
+          }}
+        >
+          <span>NO item to display</span>
+        </div>
+      )}
     </div>
   );
 };

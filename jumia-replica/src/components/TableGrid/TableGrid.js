@@ -4,22 +4,23 @@ import { FiTrash2 } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
+
+import { axiosRequest } from "../../axiosRequestMethod";
 import {
-  fetchProductFailure,
-  fetchProductStart,
-  fetchProductSucess,
-  deleteProductStart,
-  deleteProductSuccess,
-  deleteProductFailure,
   showDisplayItemStart,
   showDisplayItemSuccess,
   showDisplayItemFailure,
-} from "../../redux/productReducer";
-import { axiosRequest } from "../../axiosRequestMethod";
+  deleteProductStart,
+  deleteProductSuccess,
+  deleteProductFailure,
+  fetchProductStart,
+  fetchProductSucess,
+  fetchProductFailure,
+} from "../../redux/dashboardReducer";
 
 const TableGrid = () => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products);
+  const dashboard = useSelector((state) => state.dashboard);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -73,7 +74,7 @@ const TableGrid = () => {
           </tr>
         </thead>
         <tbody>
-          {products?.products.map((item) => (
+          {dashboard.products.map((item) => (
             <tr key={item._id}>
               <td>*</td>
               <td>
@@ -115,7 +116,7 @@ const TableGrid = () => {
                     <BsPen className="action_btn edit" />
                   </Link>
                 </span>
-                {products.loading ? (
+                {dashboard.loading ? (
                   <h6>loading...</h6>
                 ) : (
                   <span onClick={() => handleDelete(item._id)}>

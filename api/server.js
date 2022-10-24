@@ -47,7 +47,7 @@ app.use("/api/v1/products", productRoute);
 app.use("/api/v1/categories", categoryRoute);
 app.use("/api/v1/comments", commentRoute);
 app.use("/api/v1/carts", cartRoute);
-app.use("/stripe", stripeRoute);
+app.use("/", stripeRoute);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

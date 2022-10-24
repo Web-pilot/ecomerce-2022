@@ -19,6 +19,7 @@ import { axiosRequest } from "../../axiosRequestMethod";
 import { useEffect } from "react";
 import AdsBar from "../AdsBar/AdsBar";
 import SubTopBar from "../SubTopBar/SubTopBar";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   const carts = useSelector((state) => state.carts);
@@ -59,7 +60,7 @@ const Cart = () => {
 
   const handleCheckOut = async () => {
     try {
-      const res = await axiosRequest.post("stripe/create-checkout-session", {
+      const res = await axiosRequest.post("/create-checkout-session", {
         items: carts.products,
       });
       window.location = res.data;
@@ -122,6 +123,9 @@ const Cart = () => {
                   </div>
                 </div>
               ))}
+              <Link to="/" className="link">
+                Continue shopping
+              </Link>
             </div>
             <div className="check_out_card">
               <h4 className="account_section_title">Cart Summary</h4>
@@ -129,6 +133,7 @@ const Cart = () => {
                 <span className="account_section_title">Subtotal </span>
                 <h2> ₦ {carts.total}</h2>
               </div>
+
               <div className="check_out">
                 <span className="btn" onClick={handleCheckOut}>
                   Check Out ₦({carts.total})

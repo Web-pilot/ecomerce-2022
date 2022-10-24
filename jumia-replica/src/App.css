@@ -86,3 +86,9 @@ body {
 .btn_block:hover {
   color: white;
 }
+
+.link {
+  color: var(--primary-color);
+  margin: 5px 0;
+  font-size: var(--small-font-size);
+}

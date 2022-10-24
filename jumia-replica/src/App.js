@@ -38,7 +38,7 @@ import {
   fetchCartProductSuccess,
   fetchCartProductFailure,
 } from "./redux/cartReducer";
-import CheckoutSuccess from "./CheckOutSuccess/CheckoutSuccess";
+import CheckoutSuccess from "./components/CheckOutSuccess/CheckoutSuccess";
 
 function App() {
   const [categoryOpen, setCategoryOpen] = useState(false);

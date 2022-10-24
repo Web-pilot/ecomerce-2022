@@ -10,12 +10,13 @@ import {
 import app from "../../firebase";
 import { axiosRequest } from "../../axiosRequestMethod";
 import { useDispatch, useSelector } from "react-redux";
+
+import { useLocation } from "react-router-dom";
 import {
   editProductFailure,
   editProductStart,
   editProductSuccess,
-} from "../../redux/productReducer";
-import { useLocation } from "react-router-dom";
+} from "../../redux/dashboardReducer";
 const EditProductForm = () => {
   const products = useSelector((state) => state.products.products);
   const [title, setTitle] = useState("");

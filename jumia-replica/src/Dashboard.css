@@ -3,8 +3,12 @@
     height: 100vh;
     gap: 5px;
     overflow: auto;
+    flex-wrap: wrap;
+    font-size: var(--small-font-size);
+    background-color: var(--text-primary-color);
 }
-.main {
+.dashboard_logo {
+    height: 40px;
 }
 .dashboard .sidebar {
     flex: 1;
@@ -21,7 +25,6 @@
 .dash_title {
     color: #999;
     padding: 10px 0;
-    border-bottom: var(--border);
 }
 .dashboard ul {
     list-style: none;
@@ -45,15 +48,18 @@
     justify-content: space-between;
     border-bottom: var(--border);
     width: 97%;
-    margin-top: 10px;
-    padding-left: 5px;
     position: sticky;
     top: 0;
-   background: white;
+    background: white;
+    height: 50px;
+    align-items: center;
 }
 .dashboard_logo {
     color: var(--primary-color);
     padding: 0 0 10px 0;
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--small-font-size);
 }
 
 .profile img {
@@ -79,4 +85,24 @@
     border: none;
     outline: none;
     padding: 5px;
+}
+.close_menu, .menu_icon {
+    display: none;
+}
+td span {
+    cursor: pointer;
+}
+@media  screen and (max-width: 765px) {
+    .dashboard .sidebar {
+        flex: none;
+        width: 100%;
+    }
+    .dashboard .sidebar.small {
+        height: 40px;
+        overflow: auto;
+    }
+    .close_menu, .menu_icon {
+        display: flex;
+    }
+   
 }

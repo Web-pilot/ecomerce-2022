@@ -1,12 +1,26 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import AdsBar from "../components/AdsBar/AdsBar";
-import AppBar from "../components/AppBar/AppBar";
-import SubTopBar from "../components/SubTopBar/SubTopBar";
+import { axiosRequest } from "../../axiosRequestMethod";
+import AdsBar from "../AdsBar/AdsBar";
+import AppBar from "../AppBar/AppBar";
+import SubTopBar from "../SubTopBar/SubTopBar";
 import "./CheckoutSuccess.css";
 
 const CheckoutSuccess = () => {
   const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    const getOrder = async () => {
+      try {
+        const res = await axiosRequest.post("stripe/webhook");
+        console.log(res.data);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getOrder();
+  }, []);
   return (
     <>
       <AdsBar />
@@ -25,6 +39,11 @@ const CheckoutSuccess = () => {
           <Link to="/" className="btn">
             Continue Shopping
           </Link>
+        </p>
+        <h1>Thanks for your order!</h1>
+        <p>
+          We appreciate your business! If you have any questions, please email
+          <a href="mailto:ochagwupaul1@gmail.com.com">ochagwupaul1@gmail</a>.
         </p>
       </div>
     </>

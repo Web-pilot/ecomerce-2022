@@ -4,10 +4,12 @@ import categoryReducer from "./categoryReducer";
 import productReducer from "./productReducer";
 import userReducer from "./userReducer";
 import thunk from "redux-thunk";
+
 // configureStore.js
 
 import { persistStore, persistReducer } from "redux-persist";
 import sessionStorage from "redux-persist/es/storage/session";
+import dashboardReducer from "./dashboardReducer";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +21,7 @@ const rootReducer = combineReducers({
   products: productReducer,
   user: userReducer,
   category: categoryReducer,
+  dashboard: dashboardReducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

@@ -8,18 +8,28 @@ import {
 import { FcTwoSmartphones } from "react-icons/fc";
 import { AiFillCar } from "react-icons/ai";
 import { RiComputerLine } from "react-icons/ri";
-import { FaGamepad } from "react-icons/fa";
+import { FaGamepad, FaTimes } from "react-icons/fa";
 import { MdOutlineSportsVolleyball } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { BiMenu } from "react-icons/bi";
 
 const DashboardSidebar = () => {
+  const [small, setSmall] = useState(true);
+
   return (
-    <div className="sidebar">
+    <div className={`sidebar ${small && "small"}`}>
       <h4 className="dashboard_logo">
-        <Link to="/">REALMKRT</Link>
+        <Link to="/">RECORMERCE</Link>
+        {small && (
+          <BiMenu className="menu_icon" onClick={() => setSmall(false)} />
+        )}
+        {!small && (
+          <FaTimes className="close_menu" onClick={() => setSmall(true)} />
+        )}
       </h4>
       <ul className="">
-        <li className="dash_title">OFTEN USE</li>
+        <li className="dash_title">MENU</li>
         <li>
           <Link to="/seller/dashboard">
             <GiHomeGarage /> Home
