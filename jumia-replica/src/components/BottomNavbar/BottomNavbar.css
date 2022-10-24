@@ -1,7 +1,6 @@
 .bottom_navbar {
-    height: 100vh;
     position: fixed;
-    top: 0;
+    bottom: 0;
     left: 0;
     display: flex;
     align-items: flex-end;
@@ -9,9 +8,12 @@
     margin: 0;
     display: none;
     z-index: 10;
+    font-size: var(--small-font-size);
+    color: var(--text-primary-color);
+    z-index: 10;
 }
 .small_screen_navbar {
-    height: var(--header-height);
+    height: 40px;
     background: var(--primary-color);
     width: 100vw;
     display: flex;
@@ -19,7 +21,7 @@
     list-style: none;
     justify-content: space-between;
     padding: 5px;
-
+z-index: 11;
 }
 
 .small_screen_navbar li {

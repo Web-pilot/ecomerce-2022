@@ -1,23 +1,12 @@
 import "./Carousel.css";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import { useState } from "react";
 import Slider from "react-slick";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Carousel = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShIXvP0PLQ-HldDYiy_QedCrkaqwaFmniDeg&usqp=CAU",
-    },
-    {
-      id: 2,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShIXvP0PLQ-HldDYiy_QedCrkaqwaFmniDeg&usqp=CAU",
-    },
-    {
-      id: 3,
-      img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShIXvP0PLQ-HldDYiy_QedCrkaqwaFmniDeg&usqp=CAU",
-    },
-  ]);
+  const products = useSelector((state) => state.products);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -74,13 +63,13 @@ const Carousel = () => {
         <AiOutlineArrowRight />
       </span>
       <div className="slide">
-      <Slider {...settings}>
-        {data.map((item) => (
-          <a href="@" key={item.id}>
-            <img src={item.img} alt="" key={item.id} className="slide" />
-          </a>
-        ))}
-      </Slider>
+        <Slider {...settings}>
+          {products.products.slice(0, 5).map((item) => (
+            <Link to={`/${item.title}/${item._id}`} key={item._id}>
+              <img src={item.img} alt="" className="slide" />
+            </Link>
+          ))}
+        </Slider>
       </div>
     </div>
   );

@@ -28,9 +28,9 @@ const postCharge = async (req, res) => {
       customer_email: req.user.email,
       submit_type: "pay",
       billing_address_collection: "auto",
-      // shipping_address_collection: {
-      //   allowed_countries: ["US", "CA"],
-      // },
+      shipping_address_collection: {
+        allowed_countries: ["US", "CA", "NG"],
+      },
       payment_method_types: ["card"],
       mode: "payment",
       line_items: line_items,

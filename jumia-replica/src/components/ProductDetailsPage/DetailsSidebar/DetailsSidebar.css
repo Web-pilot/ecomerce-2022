@@ -1,5 +1,11 @@
 .details_slide {
     flex: 2;
     background: var(--text-primary-color);
-    margin-left: 10px;
+    line-height: 30px;
+    padding: 20px;
+}
+.details_slide input {
+    border: none;
+    outline: none;
+    border: var(--border);
 }

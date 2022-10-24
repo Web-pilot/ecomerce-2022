@@ -6,14 +6,12 @@
     position: sticky;
     top: 0;
 }
-
 .nav {
     display: flex;
     height: 100%;
     align-items: center;
     
 }
-
 .logo {
     text-transform: uppercase;
     font-weight: 900;
@@ -21,7 +19,6 @@
     font-size: var(--big-font);
     width: 20%;
 }
-
 .nav_left {
     width: 80%;
     height: 100%;
@@ -35,8 +32,6 @@
     width: 80%;
 
 }
-
-
 .search_form input[type=search] {
     padding: 8px;
     outline: none;
@@ -47,7 +42,6 @@
     border: 0.5px solid rgba(0, 0, 0, 0.5);
     width: 80%;
 }
-
 .search_icon {
     position: absolute;
     top: 50%;
@@ -56,22 +50,17 @@
     transform: translateY(-50%);
     font-size: 1rem;
 }
-
-
-
 .account_cart {
     display: flex;
     align-items: center;
     font-size: var(--small-font-size);
    
 }
-
 .user {
     background: var(--light-bg);
     cursor: pointer;
     position: relative;
 }
-
 .dropdown {
     position: absolute;
     top: 35px;
@@ -82,7 +71,6 @@
     border-radius: 5px;
     padding: 10px;
 }
-
 .dropdown ul {
     padding: 0;
     list-style: none;
@@ -121,8 +109,7 @@
        margin-right: 5px;
 
    }
-   
-    .btn {
+    .navbar .btn {
        display: none;
     }
     .hide {

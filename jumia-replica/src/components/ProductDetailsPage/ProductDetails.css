@@ -1,3 +1,11 @@
 .product_details_container {
     display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+@media screen and (max-width: 765px){
+    .product_details_container {
+        font-size: var(--small-font-size);
+    }
 }

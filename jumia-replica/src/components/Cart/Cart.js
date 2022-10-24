@@ -17,6 +17,8 @@ import {
 } from "../../redux/cartReducer";
 import { axiosRequest } from "../../axiosRequestMethod";
 import { useEffect } from "react";
+import AdsBar from "../AdsBar/AdsBar";
+import SubTopBar from "../SubTopBar/SubTopBar";
 
 const Cart = () => {
   const carts = useSelector((state) => state.carts);
@@ -67,6 +69,8 @@ const Cart = () => {
   };
   return (
     <>
+      <AdsBar />
+      <SubTopBar />
       <AppBar />
       <section className="container ">
         {!carts.products.length ? (
@@ -84,7 +88,7 @@ const Cart = () => {
                         className="remove_btn"
                         onClick={() => handleDeleteCart(item._id)}
                       >
-                        <FiTrash /> REMOVE
+                        <FiTrash /> <span className="hide">REMOVE</span>
                       </span>
                     </div>
                     <div className="info">

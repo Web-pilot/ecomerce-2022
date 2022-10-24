@@ -3,6 +3,7 @@
     background: var(--text-primary-color);
     display: flex;
     height: 40vh;
+    flex-wrap: wrap;
 }
 
 .product_image_section  {
@@ -76,6 +77,8 @@
     text-align: center;
     cursor: pointer;
     z-index: 2;
+    padding: 0;
+    padding: 7px;
 }
 .add_to_cart_btn_icon {
     position: absolute;
@@ -84,3 +87,15 @@
     transform: translateY(-50%);
 }
 
+@media screen and (max-width: 765px) {
+    .details {
+        flex: none;
+        width: 100%;
+        height: fit-content;
+    }
+    .product_image_section  {
+        flex: none;
+        width: 100%;
+        height: 200px;
+    }
+}

@@ -121,7 +121,12 @@ function App() {
           path="/cart"
           element={user.user ? <Cart /> : <Navigate to="/account/sign-in" />}
         />
-        <Route path="/:title/:id" element={<ProductDetails />} />
+        <Route
+          path="/:title/:id"
+          element={
+            user.user ? <ProductDetails /> : <Navigate to="/account/sign-in" />
+          }
+        />
         <Route
           path="/customer/account"
           element={user.user ? <Account /> : <Navigate to="/account/sign-in" />}
