@@ -39,7 +39,7 @@
     border-radius: 7px;
     font-size: var(--big-font);
     border: none;
-    border: 0.5px solid rgba(0, 0, 0, 0.5);
+    border: var(--border);
     width: 80%;
 }
 .search_icon {

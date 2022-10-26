@@ -13,10 +13,18 @@ const categoryRoute = require("./Routes/category");
 const commentRoute = require("./Routes/comment");
 const cartRoute = require("./Routes/cart");
 const stripeRoute = require("./Routes/stripe");
+const stripeWebhookRouter = require("./Routes/stripeWebhook");
 
 // initialize app
 const app = express();
-app.use(express.json());
+
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: "GET, POST,PUT,DELETE",
+    credentials: true,
+  })
+);
 
 app.use(
   cookieSession({
@@ -29,19 +37,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(
-  cors({
-    origin: "http://localhost:3000",
-    methods: "GET, POST,PUT,DELETE",
-    credentials: true,
-  })
-);
-
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => console.log("databse connected successfully"))
   .catch((err) => console.log(err));
 
+app.use("/stripe", stripeWebhookRouter);
+
+app.use(express.json());
 app.use("/auth", authRoute);
 app.use("/api/v1/products", productRoute);
 app.use("/api/v1/categories", categoryRoute);

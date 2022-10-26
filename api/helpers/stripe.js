@@ -35,7 +35,9 @@ const postCharge = async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items: line_items,
-
+      metadata: {
+        line_items,
+      },
       success_url: `${YOUR_DOMAIN}/success`,
       cancel_url: `${YOUR_DOMAIN}/canceled`,
     });
@@ -51,38 +53,4 @@ const fulfillOrder = (session) => {
   console.log("Fulfilling order", session);
 };
 
-const onCheckOutSessionCompleted = (req, res) => {
-  const payload = req.body;
-
-  const sig = req.headers["stripe-signature"];
-
-  let event;
-
-  try {
-    event = stripe.webhooks.constructEvent(payload, sig, END_POINT_SECRET);
-  } catch (err) {
-    return res.status(400).send(`Webhook Error: ${err.message}`);
-  }
-
-  // Handle the event
-  switch (event.type) {
-    case "payment_intent.succeeded":
-      const paymentIntent = event.data.object;
-      console.log("PaymentIntent was successful!");
-      console(paymentIntent);
-      break;
-    case "payment_method.attached":
-      const paymentMethod = event.data.object;
-      console.log("PaymentMethod was attached to a Customer!");
-      console(paymentMethod);
-
-      break;
-    // ... handle other event types
-    default:
-      console.log(`Unhandled event type ${event.type}`);
-  }
-
-  res.status(200).json(event);
-};
-
-module.exports = { postCharge, onCheckOutSessionCompleted };
+module.exports = postCharge;
