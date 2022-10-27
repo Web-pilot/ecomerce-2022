@@ -4,7 +4,6 @@ const Cart = require("../Models/Cart");
 const Product = require("../Models/Product");
 
 const YOUR_DOMAIN = process.env.DOMAIN_URL;
-const END_POINT_SECRET = process.env.END_POINT_SECRET;
 
 const postCharge = async (req, res) => {
   const line_items = [];
@@ -35,9 +34,7 @@ const postCharge = async (req, res) => {
       payment_method_types: ["card"],
       mode: "payment",
       line_items: line_items,
-      metadata: {
-        line_items,
-      },
+
       success_url: `${YOUR_DOMAIN}/success`,
       cancel_url: `${YOUR_DOMAIN}/canceled`,
     });
@@ -46,11 +43,6 @@ const postCharge = async (req, res) => {
   } catch (error) {
     res.status(500).json(error.message);
   }
-};
-
-const fulfillOrder = (session) => {
-  // TODO: fill me in
-  console.log("Fulfilling order", session);
 };
 
 module.exports = postCharge;
