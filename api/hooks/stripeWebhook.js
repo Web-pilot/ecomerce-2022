@@ -5,8 +5,6 @@ const Product = require("../Models/Product");
 const Order = require("../Models/Order");
 const User = require("../Models/User");
 const Cart = require("../Models/Cart");
-const express = require("express");
-const main = require("../helpers/nodemailer");
 
 // Find your endpoint's secret in your Dashboard's webhook settings
 const endpointSecret = process.env.END_POINT_SECRET;
@@ -34,22 +32,7 @@ const fulfillOrder = async (session) => {
         shippingAddress: session.shipping_details,
       });
       await order.save();
-      productArray.forEach(async function (item) {
-        const sellers = await User.find({ googleId: item.selledId });
-        const userEmail = [];
-        for await (item of sellers) {
-          userEmail.push(item.email);
-          // await main(
-          //   item.email,
-          //   "HOWDY! RECOMERCE ORDER",
-          //   "You have an order at Recomerce store"
-          // );
-          // console.log(item.e);
-        }
-        // await Cart.deleteMany({ userId: user._id });
-        const unique = new Set(userEmail);
-        console.log(unique);
-      });
+      await Cart.deleteMany({ userId: user.googleId });
     }
   } catch (error) {
     console.log(error);
@@ -71,7 +54,6 @@ const paymentSuccessful = async (request, response) => {
   // Handle the checkout.session.completed event
   if (event.type === "checkout.session.completed") {
     const session = event.data.object;
-
     // Fulfill the purchase...
     await fulfillOrder(session);
   }

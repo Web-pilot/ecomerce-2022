@@ -3,18 +3,19 @@ import cartReducer from "./cartReducer";
 import categoryReducer from "./categoryReducer";
 import productReducer from "./productReducer";
 import userReducer from "./userReducer";
-import thunk from "redux-thunk";
+// import thunk from "redux-thunk";
 
 // configureStore.js
 
-import { persistStore, persistReducer } from "redux-persist";
-import sessionStorage from "redux-persist/es/storage/session";
+// import { persistStore, persistReducer } from "redux-persist";
+// import sessionStorage from "redux-persist/es/storage/session";
 import dashboardReducer from "./dashboardReducer";
+import orderReducer from "./orderReducer";
 
-const persistConfig = {
-  key: "root",
-  storage: sessionStorage,
-};
+// const persistConfig = {
+//   key: "root",
+//   storage: sessionStorage,
+// };
 
 const rootReducer = combineReducers({
   carts: cartReducer,
@@ -22,12 +23,13 @@ const rootReducer = combineReducers({
   user: userReducer,
   category: categoryReducer,
   dashboard: dashboardReducer,
+  orders: orderReducer,
 });
-const persistedReducer = persistReducer(persistConfig, rootReducer);
+// const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: [thunk],
+  reducer: rootReducer,
+  // middleware: [thunk],
 });
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);

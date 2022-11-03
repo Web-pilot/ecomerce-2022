@@ -20,7 +20,7 @@ async function main(email, subject, plain_text) {
       to: email, // list of receivers
       subject: subject, // Subject line
       text: plain_text, // plain text body
-      html: `<a href="localhost:5000/stripe/webhook">Visit app</a>`, // html body
+      html: `<a href="http://localhost:3000/dashboard/orders" style="padding: 10px; background: orange; text-decoration: none;">Visit store</a>`, // html body
     });
 
     console.log(info);

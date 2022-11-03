@@ -11,7 +11,7 @@ const TopSellingItem = () => {
       <h3 className="container_title">Top selling Item</h3>
       {products.products ? (
         <div className="top_selling_item">
-          {products.products.map((product) => (
+          {products.searchProducts.map((product) => (
             <Link to={`/${product.title}/${product._id}`} key={product._id}>
               <MediumCard product={product} />
             </Link>

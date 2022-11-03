@@ -18,14 +18,7 @@ const Order = () => {
           <h4>Orders</h4>
           <div className="sub_nav_bar">
             <ul>
-              <li>
-                <Link to="" className="active">
-                  SUCCESS ORDERS(3)
-                </Link>
-              </li>
-              <li>
-                <Link href="">CANCELLED ORDERS(4) </Link>
-              </li>
+              <li>SUCCESS ORDERS(3)</li>
             </ul>
           </div>
           <OrderCard />

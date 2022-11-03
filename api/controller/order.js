@@ -1,4 +1,5 @@
 const Order = require("../Models/Order");
+const moment = require("moment");
 
 const editOrder = async (req, res) => {
   const { id } = req.params;
@@ -21,6 +22,16 @@ const editOrder = async (req, res) => {
 const getAllOrder = async (req, res) => {
   try {
     const orders = await Order.find();
+    const allOrders = [];
+    for await (item of orders) {
+      console.log({
+        products: item.products,
+        shipping_address: items.shippingAddress,
+        deliveryStatus: item.deliveryStatus,
+        date: moment(item.createdAt).format("YYYY-mm-dd"),
+      });
+      console.log(allOrders);
+    }
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json(error.message);

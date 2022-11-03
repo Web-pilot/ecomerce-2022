@@ -8,9 +8,10 @@ import {
 import { BsCartPlus } from "react-icons/bs";
 import { VscPackage } from "react-icons/vsc";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { axiosRequest } from "../../axiosRequestMethod";
+import { searchProduct } from "../../redux/productReducer";
 
 const AppBar = () => {
   // const [ user] = useReducer(INITIAL_STATE.user);
@@ -18,7 +19,16 @@ const AppBar = () => {
   const user = useSelector((state) => state.user.user);
   const badge = useSelector((state) => state.carts);
   const dispatch = useDispatch();
+  const [search, setSearch] = useState("");
 
+  useEffect(() => {
+    dispatch(searchProduct({ searchTerm: search.toString() }));
+  }, [search, dispatch]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(searchProduct({ searchTerm: search.toString() }));
+  };
   const logOut = async () => {
     try {
       const res = await axiosRequest.get("auth/logout");
@@ -40,12 +50,13 @@ const AppBar = () => {
         </div>
         <div className="nav_left">
           <div className="search_form">
-            <form>
+            <form onSubmit={handleSubmit}>
               <AiOutlineSearch className="search_icon" />
               <input
                 type="search"
                 name=""
-                id=""
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
                 placeholder="search products, offer collection"
               />
               <button className="btn">Search</button>

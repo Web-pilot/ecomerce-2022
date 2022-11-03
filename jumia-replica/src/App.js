@@ -39,6 +39,12 @@ import {
   fetchCartProductFailure,
 } from "./redux/cartReducer";
 import CheckoutSuccess from "./components/CheckOutSuccess/CheckoutSuccess";
+import Footer from "./components/Footer/Footer";
+import {
+  fetchOrderFailure,
+  fetchOrderStart,
+  fetchOrderSuccess,
+} from "./redux/orderReducer";
 
 function App() {
   const [categoryOpen, setCategoryOpen] = useState(false);
@@ -96,6 +102,19 @@ function App() {
       }
     };
     fetchProduct();
+  }, []);
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        dispatch(fetchOrderStart());
+        const res = await axiosRequest.get("/api/v1/orders");
+        dispatch(fetchOrderSuccess(res.data));
+      } catch (error) {
+        dispatch(fetchOrderFailure());
+      }
+    };
+    fetchCategory();
   }, []);
 
   return (
@@ -174,6 +193,7 @@ function App() {
           }
         />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
